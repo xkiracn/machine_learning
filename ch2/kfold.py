@@ -32,7 +32,7 @@ def kfold(datas, n_splits=10):
 def main():
     datas = list(range(24))
     for x, y in kfold(datas, 10):
-        print x, y
+        print(x, y)
 
 if __name__ == '__main__':
     main()
