@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 u"""Implementation of KFold."""
 
-import copy
+import numpy
 
 
 def kfold(datas, n_splits=10):
     def split_data(datas, idx, counts):
-        target = []
-        for i in range(counts):
-            target.append(datas.pop(idx))
+        target = datas[slice(idx, idx + counts)]
+        datas = numpy.delete(datas, slice(idx, idx + counts))
         return datas, target
 
-    if not isinstance(datas, list):
+    if isinstance(datas, list):
+        datas = numpy.array(datas)
+    if not isinstance(datas, numpy.ndarray):
         raise(ValueError("Incorrect arguments: datas."))
     if len(datas) < n_splits:
         raise(ValueError("n_splits grater than number of datas."))
@@ -24,7 +25,7 @@ def kfold(datas, n_splits=10):
         if remain > 0:
             counts += 1
             remain -= 1
-        data_x, data_y = split_data(copy.copy(datas), idx, counts)
+        data_x, data_y = split_data(datas.copy(), idx, counts)
         yield data_x, data_y
         idx += counts
 
