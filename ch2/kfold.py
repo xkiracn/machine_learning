@@ -7,7 +7,7 @@ import numpy
 def kfold(datas, n_splits=10):
     def split_data(datas, idx, counts):
         target = datas[slice(idx, idx + counts)]
-        datas = numpy.delete(datas, slice(idx, idx + counts))
+        datas = numpy.delete(datas, slice(idx, idx + counts), axis=0)
         return datas, target
 
     if isinstance(datas, list):
